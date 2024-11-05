@@ -3,7 +3,8 @@ import random
 import pathlib
 import subprocess
 
-training_text_file = 'langdata/eng.training_text'
+# training_text_file = 'langdata/eng.training_text'
+training_text_file = 'langdata/sgb.training_text'
 
 lines = []
 
@@ -11,14 +12,15 @@ with open(training_text_file, 'r') as input_file:
     for line in input_file.readlines():
         lines.append(line.strip())
 
-output_directory = 'tesstrain/data/Apex-ground-truth'
+output_directory = 'tesstrain/data/sgb-ground-truth'
+fonts_dir = '/content/tesseract_tutorial/fonts'
 
 if not os.path.exists(output_directory):
     os.mkdir(output_directory)
 
 random.shuffle(lines)
 
-count = 100
+count = 10000
 
 lines = lines[:count]
 
@@ -33,7 +35,8 @@ for line in lines:
 
     subprocess.run([
         'text2image',
-        '--font=Apex',
+        f'--fonts_dir={fonts_dir}',
+        '--font=TT-Shin Go Bold',
         f'--text={line_training_text}',
         f'--outputbase={output_directory}/{file_base_name}',
         '--max_pages=1',
